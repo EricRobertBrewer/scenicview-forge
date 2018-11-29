@@ -1,15 +1,15 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "scenicviewprovo",
+  "name": "Scenic View - Provo",
+  "description": "Minecraft Forge mod for Scenic View Academy in Provo, UT.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/EricRobertBrewer/scenicview-forge",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "authorList": ["BYU Computer Science Information Retrieval Lab"],
+  "credits": "Dr. Dennis Ng, Dr. Seth Holladay, Scenic View Academy",
+  "logoFile": "assets/sva-logo-new-tagline.jpg",
   "screenshots": [],
   "dependencies": []
 }
