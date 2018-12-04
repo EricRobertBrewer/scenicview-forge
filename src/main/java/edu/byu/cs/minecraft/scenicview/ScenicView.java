@@ -1,11 +1,11 @@
 package edu.byu.cs.minecraft.scenicview;
 
 import edu.byu.cs.minecraft.scenicview.common.ScenicViewServer;
+import edu.byu.cs.minecraft.scenicview.common.communication.CommunicationEventHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 
 @Mod(
@@ -20,8 +20,16 @@ public class ScenicView {
 
     private Logger logger;
 
+    public Logger getLogger() {
+        return logger;
+    }
+
     @Mod.Instance
     public static ScenicView instance;
+
+    public static ScenicView getInstance() {
+        return instance;
+    }
 
     @SidedProxy(
             modId = MODID,
@@ -31,18 +39,47 @@ public class ScenicView {
     public static ScenicViewServer proxy;
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        proxy.preInit(event);
+        logger.info("onPreInit");
+        proxy.onPreInit(event);
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
+    public void onInit(FMLInitializationEvent event) {
+        logger.info("onInit");
+        proxy.onInit(event);
+        MinecraftForge.EVENT_BUS.register(new CommunicationEventHandler());
     }
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
+    public void onPostInit(FMLPostInitializationEvent event) {
+        logger.info("onPostInit");
+        proxy.onPostInit(event);
+    }
+
+    @Mod.EventHandler
+    public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        logger.info("onServerAboutToStart");
+    }
+
+    @Mod.EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+        logger.info("onServerStarting");
+    }
+
+    @Mod.EventHandler
+    public void onServerStarted(FMLServerStartedEvent event) {
+        logger.info("onServerStarted");
+    }
+
+    @Mod.EventHandler
+    public void onServerStopping(FMLServerStoppingEvent event) {
+        logger.info("onServerStopping");
+    }
+
+    @Mod.EventHandler
+    public void onServerStopped(FMLServerStoppedEvent event) {
+        logger.info("onServerStopped");
     }
 }

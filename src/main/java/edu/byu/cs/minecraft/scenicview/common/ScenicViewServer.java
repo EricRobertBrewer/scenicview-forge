@@ -6,12 +6,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ScenicViewServer {
 
-    public void preInit(FMLPreInitializationEvent event) {
+    public void onPreInit(FMLPreInitializationEvent event) {
     }
 
-    public void init(FMLInitializationEvent event) {
+    public void onInit(FMLInitializationEvent event) {
     }
 
-    public void postInit(FMLPostInitializationEvent event) {
+    public void onPostInit(FMLPostInitializationEvent event) {
     }
 }
