@@ -85,7 +85,6 @@ public class Quiz_Command extends CommandBase {
             //after answer 5 questions
             if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
                 //teleport
-
                 return;
             }
             //get a random number for question
