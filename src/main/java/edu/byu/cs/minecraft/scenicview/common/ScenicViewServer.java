@@ -6,6 +6,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ScenicViewServer {
 
+    public static Communication_Quiz  communication_quiz = new Communication_Quiz();
+
     public void onPreInit(FMLPreInitializationEvent event) {
     }
 

@@ -2,6 +2,7 @@ package edu.byu.cs.minecraft.scenicview;
 
 import edu.byu.cs.minecraft.scenicview.common.ScenicViewServer;
 import edu.byu.cs.minecraft.scenicview.common.communication.CommunicationEventHandler;
+import edu.byu.cs.minecraft.scenicview.common.communication.Quiz_Command;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -66,6 +67,7 @@ public class ScenicView {
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         logger.info("onServerStarting");
+        event.registerServerCommand(new Quiz_Command());
     }
 
     @Mod.EventHandler
