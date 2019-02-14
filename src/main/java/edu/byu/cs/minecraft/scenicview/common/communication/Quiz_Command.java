@@ -79,8 +79,8 @@ public class Quiz_Command extends CommandBase {
                 return;
             }
 
-            EntityPlayer p1 = Minecraft.getMinecraft().world.getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
-            EntityPlayer p2 = Minecraft.getMinecraft().world.getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
+            EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
+            EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
 
             //after answer 5 questions
             if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
