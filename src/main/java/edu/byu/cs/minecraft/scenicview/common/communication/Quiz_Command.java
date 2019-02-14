@@ -41,8 +41,8 @@ public class Quiz_Command extends CommandBase {
             ScenicViewServer.communication_quiz.clearEverything();
            // Minecraft.getMinecraft().world.getPlayerEntityByName(sender.getName()).setPositionAndUpdate(-3, 56, -19);
             MinecraftServer s = FMLCommonHandler.instance().getMinecraftServerInstance();
-            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " 755.5 1.0 -1538.5");
-           // s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " -3.5 56.0 -18.5");
+//            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " 755.5 1.0 -1538.5");
+            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " -3.5 56.0 -18.5");
            //sender.sendMessage(new TextComponentString("/tp " + sender.getName()+ " 755 1 -1539"));
         }
         if (args[0].equals("Begin")) {
