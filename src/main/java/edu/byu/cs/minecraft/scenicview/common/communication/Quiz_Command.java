@@ -167,7 +167,7 @@ public class Quiz_Command extends CommandBase {
         }
         return count++;
     }
-    
+
 
     public boolean checkIfGameOver(EntityPlayer p1, EntityPlayer p2, Communication_Quiz communication_quiz) {
         boolean over = false;
