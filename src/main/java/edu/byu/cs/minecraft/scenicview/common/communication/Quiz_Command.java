@@ -93,7 +93,7 @@ public class Quiz_Command extends CommandBase {
             if (ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName())) {
                 //if player one has answered all the question being asked
                 if (ScenicViewServer.communication_quiz.getPlayerA_answer().size() == ScenicViewServer.communication_quiz.getPlayerA_question().size()) {
-                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "choose a question first (by typing \'/Quiz Question\') "));
+                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Wait for a new question coming up"));
                     return;
                 }
 
@@ -102,7 +102,7 @@ public class Quiz_Command extends CommandBase {
             if (ScenicViewServer.communication_quiz.getPlayer_two().equals(sender.getName())) {
                 //if player two has answered all the question being asked
                 if (ScenicViewServer.communication_quiz.getPlayerB_answer().size() == ScenicViewServer.communication_quiz.getPlayerB_question().size()) {
-                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "choose a question first (by typing \'/Quiz Question\') "));
+                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Wait for a new question coming up"));
                     return;
                 }
 
