@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(
         modid = ScenicView.MODID,
         name = "Scenic View",
-        version = "1.0",
+        version = "0.0.0",
         acceptedMinecraftVersions = "[1.12.2]"
 )
 public class ScenicView {
