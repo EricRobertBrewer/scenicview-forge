@@ -37,13 +37,13 @@ public class Quiz_Command extends CommandBase {
             String usage = "Type: /Quiz Begin to join the game";
             sender.sendMessage(new TextComponentString(TextFormatting.DARK_GREEN + usage));
         }
-        if(args[0].equals("Quit")){
+        if (args[0].equals("Quit")) {
             ScenicViewServer.communication_quiz.clearEverything();
-           // Minecraft.getMinecraft().world.getPlayerEntityByName(sender.getName()).setPositionAndUpdate(-3, 56, -19);
+            // Minecraft.getMinecraft().world.getPlayerEntityByName(sender.getName()).setPositionAndUpdate(-3, 56, -19);
             MinecraftServer s = FMLCommonHandler.instance().getMinecraftServerInstance();
 //            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " 755.5 1.0 -1538.5");
-            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " -3.5 56.0 -18.5");
-           //sender.sendMessage(new TextComponentString("/tp " + sender.getName()+ " 755 1 -1539"));
+            s.getCommandManager().executeCommand(s, "/tp " + sender.getName() + " -3.5 56.0 -18.5");
+            //sender.sendMessage(new TextComponentString("/tp " + sender.getName()+ " 755 1 -1539"));
         }
         if (args[0].equals("Begin")) {
 
@@ -56,69 +56,24 @@ public class Quiz_Command extends CommandBase {
             //payer one not assigned and the sender is not player two
             else if (ScenicViewServer.communication_quiz.getPlayer_one().isEmpty()) {
                 ScenicViewServer.communication_quiz.setPlayer_one(sender.getName());
-                sender.sendMessage(new TextComponentString(TextFormatting.BLUE + "Quiz Started"));
+                sender.sendMessage(new TextComponentString(TextFormatting.BLUE + "You joined the game successfully, waiting for your partner..."));
             }
             //player two is not assigned and the sender is not player one
             else if (ScenicViewServer.communication_quiz.getPlayer_two().isEmpty()) {
                 ScenicViewServer.communication_quiz.setPlayer_two(sender.getName());
-                sender.sendMessage(new TextComponentString(TextFormatting.BLUE + "Quiz Started"));
+                sender.sendMessage(new TextComponentString(TextFormatting.BLUE + "You joined the game successfully, waiting for your partner..."));
             }
             //both player one and two has been assigned and is not the sender
             else {
                 sender.sendMessage(new TextComponentString(TextFormatting.BLUE + "Someone else is taking the quiz, wait a second"));
             }
+            if (!ScenicViewServer.communication_quiz.getPlayer_two().isEmpty() && !ScenicViewServer.communication_quiz.getPlayer_one().isEmpty()) {
+                EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
+                EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
+                exicute_quiz(p1, p2);
+            }
 
         }
-        if (args[0].equals("Question")) {
-//                sender.sendMessage(new TextComponentString(TextFormatting.RED + getUsage(sender)));
-//                return;
-            //if one of the player is missing, let the sender find a partner first
-            if (ScenicViewServer.communication_quiz.getPlayer_one().isEmpty() || ScenicViewServer.communication_quiz.getPlayer_two().isEmpty()) {
-                sender.sendMessage(new TextComponentString(TextFormatting.RED + "Wait for your partner to be prepared or type \'/Quiz Quit\' to leave the quiz"));
-
-                return;
-            }
-
-            EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
-            EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
-
-            //after answer 5 questions
-            if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
-                //teleport
-                return;
-            }
-            //get a random number for question
-            if (ScenicViewServer.communication_quiz != null) {
-                int randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
-                //check if the question has been asked;
-                while (ScenicViewServer.communication_quiz.getQuestionNum().contains(randQuestion))
-                    randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
-
-
-                //if the sender is not one of the player, let him start the game first
-                if (!ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName()) && !ScenicViewServer.communication_quiz.getPlayer_two().equals(sender.getName())) {
-                    sender.sendMessage(new TextComponentString((TextFormatting.RED + "Start the game by typing \'/Quiz Begin\' first")));
-                    return;
-                }
-                //if one of the sender ask for a question
-                else if (ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName()) || ScenicViewServer.communication_quiz.getPlayer_two().equals((sender.getName()))) {
-                    ScenicViewServer.communication_quiz.setQuestionA(ScenicViewServer.communication_quiz.pick_question(1, randQuestion));
-                    ScenicViewServer.communication_quiz.setPlayerA_question(ScenicViewServer.communication_quiz.getQuestionA());
-
-                    ScenicViewServer.communication_quiz.setQuestionB(ScenicViewServer.communication_quiz.pick_question(2, randQuestion));
-                    ScenicViewServer.communication_quiz.setPlayerB_question(ScenicViewServer.communication_quiz.getQuestionB());
-
-
-                    if (p1 != null && p2 != null) {
-                        p1.sendMessage(new TextComponentString(TextFormatting.BLUE + ScenicViewServer.communication_quiz.getQuestionA()));
-                        p2.sendMessage(new TextComponentString(TextFormatting.BLUE + ScenicViewServer.communication_quiz.getQuestionB()));
-                    }
-
-                }
-
-            }
-        }
-
         if (args[0].equals("Answer")) {
 
             StringBuilder sb = new StringBuilder();
@@ -130,10 +85,14 @@ public class Quiz_Command extends CommandBase {
             //not one of the player
             if (!ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName()) && !ScenicViewServer.communication_quiz.getPlayer_two().equals(sender.getName())) {
                 sender.sendMessage(new TextComponentString(TextFormatting.RED + "You are not in the quiz now"));
+                return;
             }
+            EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
+            EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
+
             if (ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName())) {
                 //if player one has answered all the question being asked
-                if (ScenicViewServer.communication_quiz.getPlayerA_answer().size() ==ScenicViewServer.communication_quiz.getPlayerA_question().size()) {
+                if (ScenicViewServer.communication_quiz.getPlayerA_answer().size() == ScenicViewServer.communication_quiz.getPlayerA_question().size()) {
                     sender.sendMessage(new TextComponentString(TextFormatting.RED + "choose a question first (by typing \'/Quiz Question\') "));
                     return;
                 }
@@ -149,7 +108,36 @@ public class Quiz_Command extends CommandBase {
 
                 ScenicViewServer.communication_quiz.setPlayerB_answer(answer);
             }
+            boolean playerA_isAnswered = (ScenicViewServer.communication_quiz.getPlayerA_answer().size() == ScenicViewServer.communication_quiz.getPlayerA_question().size());
+            boolean playerB_isAnswered = (ScenicViewServer.communication_quiz.getPlayerB_answer().size() == ScenicViewServer.communication_quiz.getPlayerB_question().size());
+            if (playerA_isAnswered && playerB_isAnswered) {
+                exicute_quiz(p1, p2);
+            }
+        }
+    }
 
+    public void exicute_quiz(EntityPlayer p1, EntityPlayer p2) {
+
+        int randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
+        //check if the question has been asked;
+        while (ScenicViewServer.communication_quiz.getQuestionNum().contains(randQuestion)) {
+            randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
+        }
+        ScenicViewServer.communication_quiz.getQuestionNum().add(randQuestion);
+
+        ScenicViewServer.communication_quiz.setQuestionA(ScenicViewServer.communication_quiz.pick_question(1, randQuestion));
+        ScenicViewServer.communication_quiz.setPlayerA_question(ScenicViewServer.communication_quiz.getQuestionA());
+
+        ScenicViewServer.communication_quiz.setQuestionB(ScenicViewServer.communication_quiz.pick_question(2, randQuestion));
+        ScenicViewServer.communication_quiz.setPlayerB_question(ScenicViewServer.communication_quiz.getQuestionB());
+
+        if (p1 != null && p2 != null) {
+            p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionA() + "\n type \'Quiz Answer [your answer]\' to answer the question"));
+            p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionB() + "\n type \'Quiz Answer [your answer]\' to answer the question"));
+        }
+        if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
+            //teleport
+            return;
         }
     }
 
@@ -180,24 +168,24 @@ public class Quiz_Command extends CommandBase {
 
             if (count_correction(communication_quiz) > Math.ceil(communication_quiz.getPlayerA_answer().size() / 2)) {
                 p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Congratulation! You and your partner pass the test"));
-                s.getCommandManager().executeCommand(s, "/tp " + p1.getName()+ " -2.5 47.0 31.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -2.5 47.0 31.5");
 
                 p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "Congratulation! You and your partner pass the test"));
-                s.getCommandManager().executeCommand(s, "/tp " + p2.getName()+ " -2.5 47.0 31.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -2.5 47.0 31.5");
 
             } else {
                 p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more"));
-                s.getCommandManager().executeCommand(s, "/tp " + p1.getName()+ " -3.5 56.0 -18.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -3.5 56.0 -18.5");
 
                 p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more"));
-                s.getCommandManager().executeCommand(s, "/tp " + p2.getName()+ " -3.5 56.0 -18.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -3.5 56.0 -18.5");
 
             }
             ScenicViewServer.communication_quiz.clearEverything();
         }
         return over;
     }
-
+}
 //    public boolean player_attend (){
 //        double ax1 = (double) -11;
 //        double ay1 = (double) 57;
@@ -221,5 +209,54 @@ public class Quiz_Command extends CommandBase {
 //    }
 
 
-}
 
+
+//         if (args[0].equals("Question")) {
+// //                sender.sendMessage(new TextComponentString(TextFormatting.RED + getUsage(sender)));
+// //                return;
+//             //if one of the player is missing, let the sender find a partner first
+//             if (ScenicViewServer.communication_quiz.getPlayer_one().isEmpty() || ScenicViewServer.communication_quiz.getPlayer_two().isEmpty()) {
+//                 sender.sendMessage(new TextComponentString(TextFormatting.RED + "Wait for your partner to be prepared or type \'/Quiz Quit\' to leave the quiz"));
+
+//                 return;
+//             }
+
+//             EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
+//             EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
+
+//             //after answer 5 questions
+//             if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
+//                 //teleport
+//                 return;
+//             }
+//             //get a random number for question
+//             if (ScenicViewServer.communication_quiz != null) {
+//                 int randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
+//                 //check if the question has been asked;
+//                 while (ScenicViewServer.communication_quiz.getQuestionNum().contains(randQuestion))
+//                     randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
+
+
+//                 //if the sender is not one of the player, let him start the game first
+//                 if (!ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName()) && !ScenicViewServer.communication_quiz.getPlayer_two().equals(sender.getName())) {
+//                     sender.sendMessage(new TextComponentString((TextFormatting.RED + "Start the game by typing \'/Quiz Begin\' first")));
+//                     return;
+//                 }
+//                 //if one of the sender ask for a question
+//                 else if (ScenicViewServer.communication_quiz.getPlayer_one().equals(sender.getName()) || ScenicViewServer.communication_quiz.getPlayer_two().equals((sender.getName()))) {
+//                     ScenicViewServer.communication_quiz.setQuestionA(ScenicViewServer.communication_quiz.pick_question(1, randQuestion));
+//                     ScenicViewServer.communication_quiz.setPlayerA_question(ScenicViewServer.communication_quiz.getQuestionA());
+
+//                     ScenicViewServer.communication_quiz.setQuestionB(ScenicViewServer.communication_quiz.pick_question(2, randQuestion));
+//                     ScenicViewServer.communication_quiz.setPlayerB_question(ScenicViewServer.communication_quiz.getQuestionB());
+
+
+//                     if (p1 != null && p2 != null) {
+//                         p1.sendMessage(new TextComponentString(TextFormatting.BLUE + ScenicViewServer.communication_quiz.getQuestionA()));
+//                         p2.sendMessage(new TextComponentString(TextFormatting.BLUE + ScenicViewServer.communication_quiz.getQuestionB()));
+//                     }
+
+//                 }
+
+//             }
+//         }

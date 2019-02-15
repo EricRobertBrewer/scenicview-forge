@@ -10,7 +10,6 @@ import java.util.Stack;
 public class Communication_Quiz {
     private String[] player_one_questions;
     private String[] player_two_questions;
-
     private String player_one;
     private String player_two;
     private String questionA ;
@@ -24,15 +23,17 @@ public class Communication_Quiz {
     private List<Integer> questionNum;
 
     public Communication_Quiz(){
-        player_one_questions = new String[]{"How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?",
-                "How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?"};
-        player_two_questions = new String[]{"How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?" ,
-                "How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?"};
+        player_one_questions = new String[]{"Which city do your partner's parents live?", "Which city does your partner live now", "What is your partner's name?", "How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?",
+                "Which city do your parents live?", "Which city do you live", "What is your name?", "How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?"};
+        player_two_questions = new String[]{"Which city do your parents live?", "Which city do you live", "What is your name?", "How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?" ,
+                "Which city do your partner's parents live?", "Which city does your partner live now", "What is your partner's name?", "How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?"};
         player_one = "";
         player_two = "";
         questionA = "";
         questionB = "";
         answer = "";
+        playerA_answer_count = 0;
+        playerB_answer_count = 0;
         playerA_answer = new Stack<>();
         playerB_answer = new Stack<>();
         playerA_question = new Stack<>();
@@ -61,6 +62,7 @@ public class Communication_Quiz {
         }
          else return player_two_questions[randQuestion];
     }
+
     public String getPlayer_one() {
         return player_one;
     }
