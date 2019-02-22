@@ -2,20 +2,14 @@ package edu.byu.cs.minecraft.scenicview.common.communication;
 
 import edu.byu.cs.minecraft.scenicview.common.Communication_Quiz;
 import edu.byu.cs.minecraft.scenicview.common.ScenicViewServer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 public class Quiz_Command extends CommandBase {
 
@@ -42,7 +36,7 @@ public class Quiz_Command extends CommandBase {
             // Minecraft.getMinecraft().world.getPlayerEntityByName(sender.getName()).setPositionAndUpdate(-3, 56, -19);
             MinecraftServer s = FMLCommonHandler.instance().getMinecraftServerInstance();
 //            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " 755.5 1.0 -1538.5");
-            s.getCommandManager().executeCommand(s, "/tp " + sender.getName() + " -3.5 56.0 -18.5");
+            s.getCommandManager().executeCommand(s, "/tp " + sender.getName() + " -2.5 57.0 -21.5");
             //sender.sendMessage(new TextComponentString("/tp " + sender.getName()+ " 755 1 -1539"));
         }
         if (args[0].equals("Begin")) {
@@ -70,7 +64,7 @@ public class Quiz_Command extends CommandBase {
             if (!ScenicViewServer.communication_quiz.getPlayer_two().isEmpty() && !ScenicViewServer.communication_quiz.getPlayer_one().isEmpty()) {
                 EntityPlayer p1 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_one());
                 EntityPlayer p2 = server.getEntityWorld().getPlayerEntityByName(ScenicViewServer.communication_quiz.getPlayer_two());
-                exicute_quiz(p1, p2);
+                execute_quiz(p1, p2);
             }
 
         }
@@ -111,12 +105,16 @@ public class Quiz_Command extends CommandBase {
             boolean playerA_isAnswered = (ScenicViewServer.communication_quiz.getPlayerA_answer().size() == ScenicViewServer.communication_quiz.getPlayerA_question().size());
             boolean playerB_isAnswered = (ScenicViewServer.communication_quiz.getPlayerB_answer().size() == ScenicViewServer.communication_quiz.getPlayerB_question().size());
             if (playerA_isAnswered && playerB_isAnswered) {
-                exicute_quiz(p1, p2);
+                execute_quiz(p1, p2);
             }
         }
     }
 
-    public void exicute_quiz(EntityPlayer p1, EntityPlayer p2) {
+    public void execute_quiz(EntityPlayer p1, EntityPlayer p2) {
+        if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
+            //teleport
+            return;
+        }
 
         int randQuestion = ScenicViewServer.communication_quiz.pick_questions_number();
         //check if the question has been asked;
@@ -135,10 +133,6 @@ public class Quiz_Command extends CommandBase {
             p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionA() + "\n type \'Quiz Answer [your answer]\' to answer the question"));
             p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionB() + "\n type \'Quiz Answer [your answer]\' to answer the question"));
         }
-        if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
-            //teleport
-            return;
-        }
     }
 
     public int count_correction(Communication_Quiz communication_quiz) {
@@ -153,7 +147,7 @@ public class Quiz_Command extends CommandBase {
 //                wrongAnswer.push(getPlayer_one() + ": " +pA +"\n" + getPlayer_two() + ": " + pB );
 //            }
         }
-        return count++;
+        return count;
     }
 
 
@@ -168,17 +162,17 @@ public class Quiz_Command extends CommandBase {
 
             if (count_correction(communication_quiz) > Math.ceil(communication_quiz.getPlayerA_answer().size() / 2)) {
                 p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Congratulation! You and your partner pass the test"));
-                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -2.5 47.0 31.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -2.5 57.0 -21.5");
 
                 p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "Congratulation! You and your partner pass the test"));
-                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -2.5 47.0 31.5");
+                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -2.5 57.0 -21.5");
 
             } else {
-                p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more"));
-                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -3.5 56.0 -18.5");
+                p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more next time"));
+                s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -2.5 57.0 -21.5");
 
-                p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more"));
-                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -3.5 56.0 -18.5");
+                p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "Sorry! You and your partner may need to talk more next time"));
+                s.getCommandManager().executeCommand(s, "/tp " + p2.getName() + " -2.5 57.0 -21.5");
 
             }
             ScenicViewServer.communication_quiz.clearEverything();

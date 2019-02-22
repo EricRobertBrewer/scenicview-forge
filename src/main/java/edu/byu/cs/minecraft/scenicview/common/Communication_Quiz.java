@@ -32,8 +32,6 @@ public class Communication_Quiz {
         questionA = "";
         questionB = "";
         answer = "";
-        playerA_answer_count = 0;
-        playerB_answer_count = 0;
         playerA_answer = new Stack<>();
         playerB_answer = new Stack<>();
         playerA_question = new Stack<>();
