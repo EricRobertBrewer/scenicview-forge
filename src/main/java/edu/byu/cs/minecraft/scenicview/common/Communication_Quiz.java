@@ -51,7 +51,7 @@ public class Communication_Quiz {
     }
     public int pick_questions_number(){
         Random rand = new Random();
-        return rand.nextInt(14);
+        return rand.nextInt(player_one_questions.length);
     }
 
     public String pick_question(int num, int randQuestion){
