@@ -3,7 +3,6 @@ package edu.byu.cs.minecraft.scenicview.common.communication;
 import edu.byu.cs.minecraft.scenicview.common.Communication_Quiz;
 import edu.byu.cs.minecraft.scenicview.common.ScenicViewServer;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -11,35 +10,40 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+
 public class Quiz_Command extends CommandBase {
 
     @Override
+    @Nonnull
     public String getName() {
         return "quiz";
     }
 
     @Override
-    public String getUsage(ICommandSender sender) {
+    @Nonnull
+    public String getUsage(@Nonnull ICommandSender sender) {
         return "quiz question";
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-
-
-        if (args[0] != "begin" && args[0] != "answer" && args[0]!= "quit") {
-            String usage = "/quiz begin -- Join the game \n /quiz answer[YOUR ANSWER] -- Answer the question \n /quiz quit -- Give up";
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) {
+        if (args.length < 1 ||
+                (!"begin".equalsIgnoreCase(args[0]) &&
+                        !"answer".equalsIgnoreCase(args[0]) &&
+                        !"quit".equalsIgnoreCase(args[0]))) {
+            String usage = "/quiz begin -- Join the game\n/quiz answer [YOUR ANSWER] -- Answer the question\n/quiz quit -- Give up";
             sender.sendMessage(new TextComponentString(TextFormatting.DARK_GREEN + usage));
+            return;
         }
-        if (args[0].equals("quit")) {
+        if ("quit".equalsIgnoreCase(args[0])) {
             ScenicViewServer.communication_quiz.clearEverything();
             // Minecraft.getMinecraft().world.getPlayerEntityByName(sender.getName()).setPositionAndUpdate(-3, 56, -19);
             MinecraftServer s = FMLCommonHandler.instance().getMinecraftServerInstance();
 //            s.getCommandManager().executeCommand(s, "/tp " + sender.getName()+ " 755.5 1.0 -1538.5");
             s.getCommandManager().executeCommand(s, "/tp " + sender.getName() + " -2.5 57.0 -21.5");
             //sender.sendMessage(new TextComponentString("/tp " + sender.getName()+ " 755 1 -1539"));
-        }
-        if (args[0].equals("begin")) {
+        } else if ("begin".equalsIgnoreCase(args[0])) {
 
             //when someone who is not in the game type egin, there maybe a problem
             //sender is one of the player
@@ -67,12 +71,12 @@ public class Quiz_Command extends CommandBase {
                 execute_quiz(p1, p2);
             }
 
-        }
-        if (args[0].equals("answer")) {
-
+        } else if ("answer".equalsIgnoreCase(args[0])) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 1; i < args.length; i++) {
-                sb.append(i + " ");
+            sb.append(args[1]);
+            for (int i = 2; i < args.length; i++) {
+                sb.append(" ");
+                sb.append(args[i]);
             }
             String answer = sb.toString();
 
@@ -113,7 +117,7 @@ public class Quiz_Command extends CommandBase {
         }
     }
 
-    public void execute_quiz(EntityPlayer p1, EntityPlayer p2) {
+    private void execute_quiz(EntityPlayer p1, EntityPlayer p2) {
         if (checkIfGameOver(p1, p2, ScenicViewServer.communication_quiz)) {
             //teleport
             return;
@@ -133,12 +137,12 @@ public class Quiz_Command extends CommandBase {
         ScenicViewServer.communication_quiz.setPlayerB_question(ScenicViewServer.communication_quiz.getQuestionB());
 
         if (p1 != null && p2 != null) {
-            p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionA() + "\n type \'quiz answer [your answer]\' to answer the question"));
-            p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionB() + "\n type \'quiz answer [your answer]\' to answer the question"));
+            p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionA() + "\n type \'\\quiz answer [your answer]\' to answer the question"));
+            p2.sendMessage(new TextComponentString(TextFormatting.BLUE + "QUESTION: " + ScenicViewServer.communication_quiz.getQuestionB() + "\n type \'\\quiz answer [your answer]\' to answer the question"));
         }
     }
 
-    public boolean checkIfGameOver(EntityPlayer p1, EntityPlayer p2, Communication_Quiz communication_quiz) {
+    private boolean checkIfGameOver(EntityPlayer p1, EntityPlayer p2, Communication_Quiz communication_quiz) {
         boolean over = false;
         if (communication_quiz.getPlayerA_answer().size() == 5 && communication_quiz.getPlayerB_answer().size() == 5) {
             over = true;
@@ -147,8 +151,9 @@ public class Quiz_Command extends CommandBase {
 
             MinecraftServer s = FMLCommonHandler.instance().getMinecraftServerInstance();
 
+            int size = communication_quiz.getPlayerA_answer().size();
             int count_correction = printResult(p1, p2, communication_quiz);
-            if (count_correction >= Math.ceil(communication_quiz.getPlayerA_answer().size() / 2)) {
+            if (count_correction >= (int) Math.ceil(size / 2.0)) {
                 p1.sendMessage(new TextComponentString(TextFormatting.BLUE + "Congratulation! You and your partner pass the test"));
                 s.getCommandManager().executeCommand(s, "/tp " + p1.getName() + " -2.5 57.0 -21.5");
 
@@ -169,23 +174,23 @@ public class Quiz_Command extends CommandBase {
         return over;
     }
 
-    public int printResult(EntityPlayer p1, EntityPlayer p2, Communication_Quiz communication_quiz){
+    private int printResult(EntityPlayer p1, EntityPlayer p2, Communication_Quiz communication_quiz){
         int count = 0;
         StringBuilder playerA_result = new StringBuilder();
         StringBuilder playerB_result = new StringBuilder();
         playerA_result.append("Compare Answers: \n");
         playerB_result.append("Compare Answers: \n");
         while(!communication_quiz.getPlayerA_question().empty()){
-            playerA_result.append(communication_quiz.getPlayerA_question().pop() + "\n");
-            playerB_result.append(communication_quiz.getPlayerB_question().pop() + "\n");
+            playerA_result.append(communication_quiz.getPlayerA_question().pop()).append("\n");
+            playerB_result.append(communication_quiz.getPlayerB_question().pop()).append("\n");
             String pA = communication_quiz.popPlayerA_answer();
             String pB = communication_quiz.popPlayerB_answer();
 
-            playerA_result.append("You Answered: "+ pA + "\n");
-            playerA_result.append("Your Partner Answered: "+ pB + "\n");
+            playerA_result.append("You Answered: ").append(pA).append("\n");
+            playerA_result.append("Your Partner Answered: ").append(pB).append("\n");
 
-            playerB_result.append("You Answered: "+ pB + "\n");
-            playerB_result.append("Your Partner Answered: "+ pA + "\n");
+            playerB_result.append("You Answered: ").append(pB).append("\n");
+            playerB_result.append("Your Partner Answered: ").append(pA).append("\n");
 
 
             if (pA.equalsIgnoreCase(pB)) {

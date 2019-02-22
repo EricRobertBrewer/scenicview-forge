@@ -23,10 +23,54 @@ public class Communication_Quiz {
     private List<Integer> questionNum;
 
     public Communication_Quiz(){
-        player_one_questions = new String[]{"Which city do your partner's parents live?", "Which city does your partner live now", "What is your partner's name?", "How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?",
-                "Which city do your parents live?", "Which city do you live", "What is your name?", "How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?"};
-        player_two_questions = new String[]{"Which city do your parents live?", "Which city do you live", "What is your name?", "How many siblings do you have?", "Where do your parents live?", "Do your live with his/her family?", "when did you have dinner with his/her family last time?", "Do you have children?", "Do you have pets?", "Are you married?" ,
-                "Which city do your partner's parents live?", "Which city does your partner live now", "What is your partner's name?", "How many siblings does your partner have?", "Where does your partner's parents live?", "does your partner live with his/her family?", "when did your partner have dinner with his/her family last time?", "Does your partner have children?", "does your partner have pets?", "Is your partner married?"};
+        player_one_questions = new String[] {
+                // Partner
+                "Which city do your partner's parents live in?",
+                "Which city does your partner live in?",
+                "What is your partner's name?",
+                "How many siblings does your partner have?",
+                "Where do your partner's parents live?",
+                "Does your partner live with his/her family?",
+                "When did your partner have dinner with his/her family last time?",
+                "Does your partner have children?",
+                "Does your partner have pets?",
+                "Is your partner married?",
+                // You
+                "Which city do your parents live in?",
+                "Which city do you live in?",
+                "What is your name?",
+                "How many siblings do you have?",
+                "Where do your parents live?",
+                "Do you live with your family?",
+                "When did you have dinner with his/her family last time?",
+                "Do you have children?",
+                "Do you have pets?",
+                "Are you married?"
+        };
+        player_two_questions = new String[] {
+                // You
+                "Which city do your parents live in?",
+                "Which city do you live in?",
+                "What is your name?",
+                "How many siblings do you have?",
+                "Where do your parents live?",
+                "Do you live with your family?",
+                "When did you have dinner with your family last time?",
+                "Do you have children?",
+                "Do you have pets?",
+                "Are you married?" ,
+                // Partner
+                "Which city do your partner's parents live?",
+                "Which city does your partner live in?",
+                "What is your partner's name?",
+                "How many siblings does your partner have?",
+                "Where do your partner's parents live?",
+                "Does your partner live with his/her family?",
+                "When did your partner have dinner with his/her family last time?",
+                "Does your partner have children?",
+                "Does your partner have pets?",
+                "Is your partner married?"
+        };
         player_one = "";
         player_two = "";
         questionA = "";
