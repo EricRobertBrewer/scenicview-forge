@@ -29,23 +29,34 @@ public class Communication_Quiz {
                 "Which city does your partner live in?",
                 "What is your partner's name?",
                 "How many siblings does your partner have?",
-                "Where do your partner's parents live?",
                 "Does your partner live with his/her family?",
-                "When did your partner have dinner with his/her family last time?",
-                "Does your partner have children?",
+                "Does your partner have any children?",
                 "Does your partner have pets?",
                 "Is your partner married?",
+
+                "Do you know what your partner's parents do for work?",
+                "Does your partner have any cousins?",
+                "Do your partner's grandparents live near you?",
+                "What does your partner's family like to do for fun? (List one)",
+                "Is your partner the oldest child in your family?",
+                "Is your partner the youngest child in your family?",
+
                 // You
                 "Which city do your parents live in?",
                 "Which city do you live in?",
                 "What is your name?",
                 "How many siblings do you have?",
-                "Where do your parents live?",
                 "Do you live with your family?",
-                "When did you have dinner with his/her family last time?",
                 "Do you have children?",
                 "Do you have pets?",
-                "Are you married?"
+                "Are you married?",
+
+                "Do you know what your parents do for work?",
+                "Do you have any cousins?",
+                "Do your grandparents live near you?",
+                "What does your family like to do for fun? (List one)",
+                "Are you the oldest child in your family?",
+                "Are you the youngest child in your family?"
         };
         player_two_questions = new String[] {
                 // You
@@ -53,23 +64,34 @@ public class Communication_Quiz {
                 "Which city do you live in?",
                 "What is your name?",
                 "How many siblings do you have?",
-                "Where do your parents live?",
                 "Do you live with your family?",
-                "When did you have dinner with your family last time?",
                 "Do you have children?",
                 "Do you have pets?",
                 "Are you married?" ,
+
+                "Do you know what your parents do for work?",
+                "Do you have any cousins?",
+                "Do your grandparents live near you?",
+                "What does your family like to do for fun? (List one)",
+                "Are you the oldest child in your family?",
+                "Are you the youngest child in your family?",
+
                 // Partner
                 "Which city do your partner's parents live?",
                 "Which city does your partner live in?",
                 "What is your partner's name?",
                 "How many siblings does your partner have?",
-                "Where do your partner's parents live?",
                 "Does your partner live with his/her family?",
-                "When did your partner have dinner with his/her family last time?",
                 "Does your partner have children?",
                 "Does your partner have pets?",
-                "Is your partner married?"
+                "Is your partner married?",
+
+                "Do you know what your partner's parents do for work?",
+                "Does your partner have any cousins?",
+                "Do your partner's grandparents live near you?",
+                "What does your partner's family like to do for fun? (List one)",
+                "Is your partner the oldest child in your family?",
+                "Is your partner the youngest child in your family?"
         };
         player_one = "";
         player_two = "";
