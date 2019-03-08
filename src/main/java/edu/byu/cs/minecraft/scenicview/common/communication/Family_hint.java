@@ -29,7 +29,7 @@ public class Family_hint {
 
     class Hint extends TimerTask{
         public void run(){
-                s.getCommandManager().executeCommand(s, "/msg @a[x=-7,y=56,z=38,dx=15,dy=7,dz=11] \nHint:\nTalks about: " + RandomHint());
+                s.getCommandManager().executeCommand(s, "/msg @a[x=-7,y=56,z=38,dx=15,dy=7,dz=11] \n\2474Hint:\n\2472Talks about: " + RandomHint());
         }
     }
 }
