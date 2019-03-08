@@ -17,7 +17,7 @@ public class Family_hint {
     public void popHint(){
         s = FMLCommonHandler.instance().getMinecraftServerInstance();
         timer = new Timer();
-        timer.schedule(new Hint(), 0, 5*1000);
+            timer.schedule(new Hint(), 0, 30*1000);
     }
 
     public String RandomHint(){
@@ -29,9 +29,7 @@ public class Family_hint {
 
     class Hint extends TimerTask{
         public void run(){
-            while (true){
-                s.getCommandManager().executeCommand(s, "/msg @a[x=-7,y=56,z=38,dx=15,dy=7,dz=11] Hint:\nTalks about: " + RandomHint());
-            }
+                s.getCommandManager().executeCommand(s, "/msg @a[x=-7,y=56,z=38,dx=15,dy=7,dz=11] \nHint:\nTalks about: " + RandomHint());
         }
     }
 }
