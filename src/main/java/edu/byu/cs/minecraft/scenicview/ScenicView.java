@@ -2,12 +2,14 @@ package edu.byu.cs.minecraft.scenicview;
 
 import edu.byu.cs.minecraft.scenicview.common.ScenicViewServer;
 import edu.byu.cs.minecraft.scenicview.common.communication.CommunicationEventHandler;
+import edu.byu.cs.minecraft.scenicview.common.communication.Family_hint;
 import edu.byu.cs.minecraft.scenicview.common.communication.Quiz_Command;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
+
 
 @Mod(
         modid = ScenicView.MODID,
@@ -73,11 +75,15 @@ public class ScenicView {
     @Mod.EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
         logger.info("onServerStarted");
+        Family_hint family_hint = new Family_hint();
+        family_hint.popHint();
+
     }
 
     @Mod.EventHandler
     public void onServerStopping(FMLServerStoppingEvent event) {
         logger.info("onServerStopping");
+
     }
 
     @Mod.EventHandler
