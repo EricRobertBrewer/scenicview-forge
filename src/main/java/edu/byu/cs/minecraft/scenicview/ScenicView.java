@@ -70,6 +70,7 @@ public class ScenicView {
     public void onServerStarting(FMLServerStartingEvent event) {
         logger.info("onServerStarting");
         event.registerServerCommand(new Quiz_Command());
+        event.registerServerCommand(new WonGame_Command());
     }
 
     @Mod.EventHandler
