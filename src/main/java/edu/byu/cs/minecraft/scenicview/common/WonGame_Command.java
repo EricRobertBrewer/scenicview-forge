@@ -28,6 +28,7 @@ class WonGame_Command  extends  CommandBase{
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) {
+        return;
     }
 
 }
